@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
                     parameters[1] = float(parameters[1])
                     setattr(new_instance, parameters[0], parameters[1])
                 elif parameters[1].isnumeric() or \
-                parameters[1].__contains__('-'):
+                        parameters[1].__contains__('-'):
                     parameters[1] = int(parameters[1])
                     setattr(new_instance, parameters[0], parameters[1])
             storage.save()
