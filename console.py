@@ -138,11 +138,12 @@ class HBNBCommand(cmd.Cmd):
                     parameters[1] = parameters[1].split('"')[1].replace('_',
                                                                         ' ')
                     setattr(new_instance, parameters[0], parameters[1])
-                elif parameters[1].isnumeric():
-                    parameters[1] = int(parameters[1])
-                    setattr(new_instance, parameters[0], parameters[1])
                 elif parameters[1].__contains__('.'):
                     parameters[1] = float(parameters[1])
+                    setattr(new_instance, parameters[0], parameters[1])
+                elif parameters[1].isnumeric() or \
+                parameters[1].__contains__('-'):
+                    parameters[1] = int(parameters[1])
                     setattr(new_instance, parameters[0], parameters[1])
             storage.save()
 
