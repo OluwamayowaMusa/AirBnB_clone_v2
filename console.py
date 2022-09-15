@@ -135,7 +135,8 @@ class HBNBCommand(cmd.Cmd):
             for parameter in args[1:]:
                 parameters = parameter.split('=')
                 if parameters[1].startswith('"'):
-                    parameters[1] = parameters[1].split('"')[1].replace('_', ' ')
+                    parameters[1] = parameters[1].split('"')[1].replace('_',
+                                                                        ' ')
                     setattr(new_instance, parameters[0], parameters[1])
                 elif parameters[1].isnumeric():
                     parameters[1] = int(parameters[1])
@@ -338,6 +339,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
