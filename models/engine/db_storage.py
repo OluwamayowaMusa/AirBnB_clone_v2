@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
 from models.state import State
+from models.user import User
 
 
 class DBStorage:
@@ -48,11 +49,13 @@ class DBStorage:
                 obj_dict[key] = obj
             return obj_dict
         else:
-            classes = [State, City]
+            classes = [State, City, User]
             obj_dict = {}
             for clss in classes:
                 for obj in DBStorage.__session.query(clss):
                     key = clss.__name__ + '.' + obj.id
+                    if '_sa_instance_state' in obj.__dict__:
+                        del obj.__dict__['_sa_instance_state']
                     obj_dict[key] = obj
             return obj_dict
 
