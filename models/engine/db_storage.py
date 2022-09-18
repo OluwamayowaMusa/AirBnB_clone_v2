@@ -10,6 +10,7 @@ from models.city import City
 from models.state import State
 from models.user import User
 from models.place import Place
+from models.review import Review
 
 
 class DBStorage:
@@ -50,7 +51,7 @@ class DBStorage:
                 obj_dict[key] = obj
             return obj_dict
         else:
-            classes = [State, City, User, Place]
+            classes = [State, City, User, Place, Review]
             obj_dict = {}
             for clss in classes:
                 for obj in DBStorage.__session.query(clss):
