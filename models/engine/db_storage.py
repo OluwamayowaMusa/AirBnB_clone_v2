@@ -47,8 +47,6 @@ class DBStorage:
             obj_dict = {}
             for obj in DBStorage.__session.query(cls):
                 key = cls.__name__ + '.' + obj.id
-                if '_sa_instance_state' in obj.__dict__:
-                    del obj.__dict__['_sa_instance_state']
                 obj_dict[key] = obj
             return obj_dict
         else:
@@ -57,8 +55,6 @@ class DBStorage:
             for clss in classes:
                 for obj in DBStorage.__session.query(clss):
                     key = clss.__name__ + '.' + obj.id
-                    if '_sa_instance_state' in obj.__dict__:
-                        del obj.__dict__['_sa_instance_state']
                     obj_dict[key] = obj
             return obj_dict
 
