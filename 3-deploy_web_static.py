@@ -54,7 +54,7 @@ def do_deploy(archive_path):
 def deploy():
     """ Combine both do_pack and do_deploy functions """
     path = do_pack()
-    if not  os.path.exists(path):
+    if not os.path.exists(path):
         return False
     state = do_deploy(path)
     return state
