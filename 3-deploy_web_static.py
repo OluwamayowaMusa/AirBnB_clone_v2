@@ -49,3 +49,12 @@ def do_deploy(archive_path):
         sudo("ln -s {} /data/web_static/current".format(path_name))
         print("New Version Deployed")
         return True
+
+
+def deploy():
+    """ Combine both do_pack and do_deploy functions """
+    path = do_pack()
+    if not  os.path.exists(path):
+        return False
+    state = do_deploy(path)
+    return state
