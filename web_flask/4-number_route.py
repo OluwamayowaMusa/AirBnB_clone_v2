@@ -48,5 +48,18 @@ def home_python(text: str) -> str:
     return "Python " + text
 
 
+@app.route('/number/<int:n>', strict_slashes=False)
+def home_number(n: int) -> str:
+    """ Displays n is a number
+
+    Args:
+        n(int): Number to display
+
+    Returns:
+        n is number
+    """
+    return "{} is a number".format(n)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
