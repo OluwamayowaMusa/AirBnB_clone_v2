@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Starts a Flask Web application comprising
-    of three view functions
+    of view functions
 """
 from flask import Flask
 
@@ -33,17 +33,19 @@ def home_c(text: str) -> str:
     return "C " + text
 
 
-@app.route('/number/<int:n>', strict_slashes=False)
-def num(n: int) -> str:
-    """ Displays n is number
+@app.route('/python/', defaults={'text': "is cool"})
+@app.route('/python/<text>', strict_slashes=False)
+def home_python(text: str) -> str:
+    """ Displays Python followed by text
 
     Args:
-        n(int): Number to diplay
+        text(str): Text to append
 
     Returns:
-        n is number
+        Python + <text>
     """
-    return f"{n} is number"
+    text = text.replace('_', ' ')
+    return "Python " + text
 
 
 if __name__ == "__main__":
