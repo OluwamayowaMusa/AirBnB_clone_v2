@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Starts a Flask Web application comprising
-    of view functions
+    of five view functions
 """
 from flask import Flask
 
