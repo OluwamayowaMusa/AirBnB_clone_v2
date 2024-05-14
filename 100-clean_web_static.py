@@ -73,6 +73,6 @@ def do_clean(number=0):
         number += 1
 
     path = "/data/web_static/releases"
-    local("cd versions; ls -t | tail -n +{} | xargs rm -rf".format(number))
+    local("cd versions; ls -t | tail -n +{} | xargs sudo rm -rf".format(number))
     with cd(path):
-        run("ls -t | tail -n +{} | xargs rm -rf".format(number))
+        run("ls -t | tail -n +{} | xargs sudo rm -rf".format(number))
