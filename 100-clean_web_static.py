@@ -2,7 +2,7 @@
 """ A fabric script that generates a .tgz
     archive and uploads to web servers
 """
-from fabric.api import local, put, sudo, env, cd
+from fabric.api import local, put, sudo, env, cd, run
 import time
 import os
 
