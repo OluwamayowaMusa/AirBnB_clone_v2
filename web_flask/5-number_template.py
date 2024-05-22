@@ -63,13 +63,13 @@ def home_number(n: int) -> str:
 
 @app.route('number_template/<int:n>', strict_slashes=False)
 def home_number_template(n: int):
-    """ Displays number n using template
+    """ Displays n is a number
 
     Args:
         n(int): Number to display
 
     Returns:
-        Template
+        n is number
     """
     return render_template("5-number.html", n)
 
