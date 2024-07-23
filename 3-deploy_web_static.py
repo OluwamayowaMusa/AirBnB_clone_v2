@@ -1,60 +1,73 @@
 #!/usr/bin/python3
-""" A fabric script that generates a .tgz
-    archive and uploads to web servers
-"""
-from fabric.api import local, put, sudo, env
-import time
-import os
+# Fabfile to create and distribute an archive to a web server.
+import os.path
+from datetime import datetime
+from fabric.api import env, local, put, run
 
 env.hosts = ["3.84.237.196", "3.80.19.23"]
 
 
 def do_pack():
-    """ Archive the web_static folder using the
-        tar command
-    """
-    try:
-        local("mkdir -p versions")
-
-        local("tar -cvzf versions/web_static_{}.tgz web_static".
-              format(time.strftime("%Y%m%d%H%M%S")))
-        return ("versions/web_static_{}.tgz".
-                format(time.strftime("%Y%m%d%H%M%S")))
-    except Exception as e:
+    """Create a tar gzipped archive of the directory web_static."""
+    dt = datetime.utcnow()
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year,
+                                                         dt.month,
+                                                         dt.day,
+                                                         dt.hour,
+                                                         dt.minute,
+                                                         dt.second)
+    if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
+    return file
 
 
 def do_deploy(archive_path):
-    """ Uploads archive to web servers
+    """Distributes an archive to a web server.
 
     Args:
-        archive_path (str): Path of archive
-
+        archive_path (str): The path of the archive to distribute.
     Returns:
-        True if successful, False if unsuccessful
+        If the file doesn't exist at archive_path or an error occurs - False.
+        Otherwise - True.
     """
-
-    if not os.path.exists(archive_path):
+    if os.path.isfile(archive_path) is False:
         return False
-    else:
-        path_name = "/data/web_static/releases/" + archive_path[9:-4]
-        file_path = "/tmp/" + archive_path[9:]
-        put(archive_path, "/tmp/")
-        sudo("mkdir -p {}".format(path_name))
-        sudo("tar -xzf {} -C {}".format(file_path, path_name))
-        sudo("rm {}".format(file_path))
-        sudo("mv {}/web_static/* {}".format(path_name, path_name))
-        sudo("rm -rf {}/web_static".format(path_name))
-        sudo("rm -rf /data/web_static/current")
-        sudo("ln -s {} /data/web_static/current".format(path_name))
-        print("New Version Deployed")
-        return True
+    file = archive_path.split("/")[-1]
+    name = file.split(".")[0]
+
+    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
+           format(file, name)).failed is True:
+        return False
+    if run("rm /tmp/{}".format(file)).failed is True:
+        return False
+    if run("mv /data/web_static/releases/{}/web_static/* "
+           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/web_static".
+           format(name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/current").failed is True:
+        return False
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+           format(name)).failed is True:
+        return False
+    return True
 
 
 def deploy():
-    """ Combine both do_pack and do_deploy functions """
-    path = do_pack()
-    if not os.path.exists(path):
+    """Create and distribute an archive to a web server."""
+    file = do_pack()
+    if file is None:
         return False
-    state = do_deploy(path)
-    return True
+    return do_deploy(file)
