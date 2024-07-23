@@ -57,4 +57,4 @@ def deploy():
     if not os.path.exists(path):
         return False
     state = do_deploy(path)
-    return state
+    return True
