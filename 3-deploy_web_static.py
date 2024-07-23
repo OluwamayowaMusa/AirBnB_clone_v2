@@ -3,12 +3,14 @@
     archive and uploads to web servers
 """
 from fabric.api import local, put, sudo, env
+from fabric.decorators import runs_once
 import time
 import os
 
 env.hosts = ["3.84.237.196", "3.80.19.23"]
 
 
+@runs_once
 def do_pack():
     """ Archive the web_static folder using the
         tar command
