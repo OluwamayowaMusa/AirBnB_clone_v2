@@ -77,5 +77,3 @@ def do_clean(number=0):
           .format(number))
     with cd(path):
         run("ls -t | tail -n +{} | xargs sudo rm -rf".format(number))
-
-    return 0
