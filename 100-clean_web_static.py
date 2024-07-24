@@ -78,4 +78,4 @@ def do_clean(number=0):
     with cd(path):
         run("ls -t | tail -n +{} | xargs sudo rm -rf".format(number))
 
-    return "Musa"
+    return 0
