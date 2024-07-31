@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+import os
 from models.base_model import BaseModel, Base
 from models.city import City
-from models import cond, storage
+from models import storage
 from sqlalchemy import String, Column
 from sqlalchemy.orm import relationship, backref
 
@@ -18,6 +19,7 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """ Gets the City with in a State """
+        cond = os.getenv('HBNB_TYPE_STORAGE')
         if cond == 'db':
             return State.cities
         else:
