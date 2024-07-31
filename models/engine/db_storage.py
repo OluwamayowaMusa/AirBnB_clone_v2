@@ -76,7 +76,7 @@ class DBStorage:
         Args:
             obj (object): Instance of State, City etc
         """
-        if cls:
+        if obj:
             DBStorage.__session.delete(obj)
 
     def reload(self):
