@@ -34,8 +34,7 @@ class DBStorage:
         db = os.getenv('HBNB_MYSQL_DB')
         test_dev = os.getenv('HBNB_ENV')  # Running Env
         DBStorage.__engine = \
-            create_engine(f'{dialect}+{driver}://{user}:{passwd}@{host}/{db}',
-                          pool_pre_ping=True)
+            create_engine(f'{dialect}+{driver}://{user}:{passwd}@{host}/{db}', pool_pre_ping=True)
 
     def all(self, cls=None):
         """ Query the database for the class cls
