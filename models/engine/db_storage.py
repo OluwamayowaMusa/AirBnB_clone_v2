@@ -90,4 +90,4 @@ class DBStorage:
 
     def close(self):
         """ Close and reopen a new session """
-        DBStorage.__session.remove()
+        DBStorage.__session.close()
