@@ -87,3 +87,7 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         DBStorage.__session = Session()
+
+    def close(self):
+        """ Close and reopen a new session """
+        DBStorage.__session.remove()
